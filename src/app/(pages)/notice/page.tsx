@@ -1,7 +1,7 @@
 import { revalidatePath } from 'next/cache'
-import { createNotice, readNotices } from '../actions/notice'
+import { createNotice, readNotices } from '../../../actions/notice'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../api/auth/authOptions'
+import { authOptions } from '../../api/auth/authOptions'
 
 export default async function Page() {
   const notices = await readNotices()
