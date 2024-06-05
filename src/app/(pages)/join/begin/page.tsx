@@ -44,24 +44,7 @@ const Input = ({
   return <div className={flexTypes[flex]}>{children}</div>
 }
 
-const Input2 = ({
-  flex,
-  render,
-  required,
-}: {
-  flex: 'row' | 'col'
-  render: (props: { required: boolean }) => ReactNode
-  required: boolean
-}) => {
-  const flexTypes = {
-    row: 'flex gap-[12px] self-stretch',
-    col: 'flex flex-col gap-[12px] self-stretch',
-  }
-
-  return <div className={flexTypes[flex]}>{render({ required })}</div>
-}
-
-Input.Label = ({
+const Label = ({
   text,
   required = false,
 }: {
@@ -76,7 +59,7 @@ Input.Label = ({
   )
 }
 
-Input.Text = <T extends FieldValues>({
+const Text = <T extends FieldValues>({
   name,
   register,
   placeholder,
@@ -97,7 +80,7 @@ Input.Text = <T extends FieldValues>({
   )
 }
 
-Input.Wrapper = ({
+const Wrapper = ({
   flex,
   children,
 }: {
@@ -111,7 +94,7 @@ Input.Wrapper = ({
   return <div className={flexTypes[flex]}>{children}</div>
 }
 
-Input.Button = ({ text }: { text: string }) => {
+const Button = ({ text }: { text: string }) => {
   return (
     <button
       type="button"
@@ -124,7 +107,7 @@ Input.Button = ({ text }: { text: string }) => {
   )
 }
 
-Input.RaidoBox = <T extends FieldValues>({
+const RadioBox = <T extends FieldValues>({
   name,
   options,
   value,
@@ -169,6 +152,12 @@ Input.RaidoBox = <T extends FieldValues>({
     </div>
   )
 }
+
+Input.Label = Label
+Input.Text = Text
+Input.Wrapper = Wrapper
+Input.Button = Button
+Input.RadioBox = RadioBox
 
 export default function BeginPage() {
   const { push } = usePushRouter()
@@ -230,7 +219,7 @@ export default function BeginPage() {
                   rules={{ required: true }}
                   render={({ field: { name, value, onChange } }) => {
                     return (
-                      <Input.RaidoBox
+                      <Input.RadioBox
                         name={name}
                         options={[{ value: '남성' }, { value: '여성' }]}
                         value={value}
