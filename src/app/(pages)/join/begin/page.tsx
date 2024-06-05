@@ -1,242 +1,373 @@
+'use client'
+
 import { Layout } from '@/app/_components/common/layouts'
+import { CheckBoxLabel } from '@/app/_components/join/CheckBoxLabel'
+import { usePushRouter } from '@/app/_hooks/common/usePushRouter'
+import { Icon } from '@/svgs/icons'
+import { ChangeEventHandler, ReactNode } from 'react'
+import {
+  Controller,
+  FieldValues,
+  Path,
+  UseFormRegister,
+  useForm,
+} from 'react-hook-form'
+
+interface BeginFormData {
+  name: string
+  username: string
+  gender: '남성' | '여성'
+  email: string
+  birth_date: string
+  email_agree: true
+  phone_number: string
+  phone_number_verify: string
+  contact_phone_number: string
+  password: string
+  password_verify: string
+  company_name: string
+  employee_number: string
+}
+
+const Input = ({
+  flex,
+  children,
+}: {
+  flex: 'row' | 'col'
+  children: ReactNode
+}) => {
+  const flexTypes = {
+    row: 'flex gap-[12px] self-stretch',
+    col: 'flex flex-col gap-[12px] self-stretch',
+  }
+
+  return <div className={flexTypes[flex]}>{children}</div>
+}
+
+const Input2 = ({
+  flex,
+  render,
+  required,
+}: {
+  flex: 'row' | 'col'
+  render: (props: { required: boolean }) => ReactNode
+  required: boolean
+}) => {
+  const flexTypes = {
+    row: 'flex gap-[12px] self-stretch',
+    col: 'flex flex-col gap-[12px] self-stretch',
+  }
+
+  return <div className={flexTypes[flex]}>{render({ required })}</div>
+}
+
+Input.Label = ({
+  text,
+  required = false,
+}: {
+  text: string
+  required?: boolean
+}) => {
+  return (
+    <div className="whitespace-nowrap text-[14px] font-semibold leading-[90%] md:text-[16px]">
+      {required && <span className="text-[#ff3819]">* </span>}
+      <span className="text-[#333]">{text}</span>
+    </div>
+  )
+}
+
+Input.Text = <T extends FieldValues>({
+  name,
+  register,
+  placeholder,
+  required = false,
+}: {
+  name: Path<T>
+  register: UseFormRegister<T>
+  placeholder: string
+  required?: boolean
+}) => {
+  return (
+    <input
+      type="text"
+      className="h-[41px] w-full rounded-[4px] border border-[#c4c4c4] bg-[#fff] px-[16px] text-[12px] placeholder:text-[#c4c4c4] md:h-[44px] md:text-[14px]"
+      {...register(name, { required })}
+      placeholder={placeholder}
+    />
+  )
+}
+
+Input.Wrapper = ({
+  flex,
+  children,
+}: {
+  flex: 'row' | 'col'
+  children: ReactNode
+}) => {
+  const flexTypes = {
+    row: 'flex gap-[8px]',
+    col: 'flex flex-col gap-[8px]',
+  }
+  return <div className={flexTypes[flex]}>{children}</div>
+}
+
+Input.Button = ({ text }: { text: string }) => {
+  return (
+    <button
+      type="button"
+      className="flex h-[41px] w-[112px] shrink-0 flex-row items-center justify-center rounded-[4px] border-[1px] border-[#888] bg-[#fff] px-[28px] py-[12px] md:h-[44px]"
+    >
+      <div className="whitespace-nowrap text-[12px] font-bold text-[#4a4a4a] md:text-[14px]">
+        {text}
+      </div>
+    </button>
+  )
+}
+
+Input.RaidoBox = <T extends FieldValues>({
+  name,
+  options,
+  value,
+  onChange,
+}: {
+  name: Path<T>
+  options: { value: string }[]
+  value: string
+  onChange: ChangeEventHandler
+}) => {
+  return (
+    <div className="flex gap-[12px]">
+      {options.map((option, idx) => {
+        const baseStyle =
+          'flex h-[41px] flex-1 flex-row items-center justify-center rounded-[4px] text-[14px]  px-[28px] py-[12px]'
+
+        const styles = {
+          on: 'text-[#fff] bg-[#4a4a4a]',
+          of: 'border text-[#4a4a4a] border-[#c4c4c4] bg-[#fff]',
+        }
+
+        return (
+          <div key={idx} className="relative w-full">
+            <label
+              htmlFor={option.value}
+              className={`${baseStyle} ${option.value === value ? styles.on : styles.of}`}
+            >
+              {option.value}
+            </label>
+            <input
+              type="radio"
+              id={option.value}
+              value={option.value}
+              checked={option.value === value}
+              name={name}
+              onChange={onChange}
+              className="absolute top-0 opacity-0" // focus를 위해서 hidden대신 opacity 사용 - DOM에 남겨놓는다
+            />
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 export default function BeginPage() {
+  const { push } = usePushRouter()
+  const { register, handleSubmit, control } = useForm<BeginFormData>({
+    defaultValues: { gender: '남성' },
+  })
+
+  const onSubmit = (data: BeginFormData) => {
+    console.log(data)
+  }
   return (
     <Layout.Join>
-      <div className="my-[100px]">
-        <div className="w-[800px] shadow flex flex-col items-start justify-start py-[56px] px-[80px] bg-[#fff] rounded-[20px]">
-          <div className="self-stretch flex flex-col items-start justify-start gap-[40px]">
-            <div className="self-stretch flex flex-row items-center justify-start gap-[12px]">
-              <div className="relative w-[24px] h-[24px] shrink-0">
-                <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#ff939300]"></div>
-                <img
-                  className="absolute left-[4px] top-[5px]"
-                  width="16"
-                  height="15"
-                  src="Group 311I3_1092;1_867.png"
-                ></img>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex w-full justify-center bg-white py-[16px] pt-[20px] md:my-[100px] md:w-[800px] md:items-center md:rounded-[20px] md:py-[56px] md:shadow"
+      >
+        <section className="flex w-full flex-col items-center justify-center gap-[24px] md:gap-[40px]">
+          <section className="flex w-full flex-row items-center gap-[12px] border-b border-[#3162FD] px-[16px] pb-[20px] md:w-[640px] md:border-0 md:px-0 md:pb-0">
+            <button onClick={() => push('JOIN_AGREE')} type="button">
+              <Icon.Back />
+            </button>
+            <div className="flex flex-row items-end justify-start gap-[8px]">
+              <div className="whitespace-nowrap text-[18px] font-bold leading-[100%] text-[#333] md:text-[26px]">
+                회원가입
               </div>
-              <div className="flex flex-row items-end justify-start gap-[8px]">
-                <div className="text-[26px] leading-[100%] font-bold text-[#333] whitespace-nowrap">
-                  회원가입
-                </div>
-                <div className="text-[16px] leading-[100%] text-[#666] whitespace-nowrap">
-                  기본 정보 입력(1/2)
-                </div>
+              <div className="whitespace-nowrap text-[12px] leading-[100%] text-[#666] md:text-[16px]">
+                기본 정보 입력(1/2)
               </div>
             </div>
-            <div className="self-stretch flex flex-col items-center justify-start gap-[60px]">
-              <div className="self-stretch flex flex-col items-end justify-start gap-[28px]">
-                <div className="self-stretch flex flex-col items-start justify-start gap-[12px]">
-                  <div className="text-[16px] leading-[90%] font-semibold whitespace-nowrap">
-                    <span className="text-[#ff3819]">* </span>
-                    <span className="text-[#333]">이름</span>
-                  </div>
-                  <div className="self-stretch flex flex-row items-center justify-start py-[12px] px-[16px] bg-[#fff] border-[1px] border-solid border-[#c4c4c4] rounded-[4px] overflow-hidden">
-                    <div className="text-[14px] leading-[140%] text-[#c4c4c4] whitespace-nowrap">
-                      이름 입력
-                    </div>
-                  </div>
+          </section>
+
+          <section className="flex w-full flex-1 flex-col justify-between gap-[40px] px-[16px] md:w-[640px] md:gap-[60px] md:px-0">
+            <section className="flex flex-col items-start justify-start gap-[28px] self-stretch">
+              <Input flex="col">
+                <Input.Label text="이름" required />
+                <Input.Text
+                  name="name"
+                  placeholder="이름 입력"
+                  register={register}
+                  required
+                />
+              </Input>
+
+              <Input flex="col">
+                <Input.Label text="생년월일" required />
+                <Input.Text
+                  name="birth_date"
+                  placeholder="YYYY/MM/DD"
+                  register={register}
+                  required
+                />
+              </Input>
+
+              <Input flex="col">
+                <Input.Label text="성별" required />
+                <Controller
+                  name={'gender'}
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { name, value, onChange } }) => {
+                    return (
+                      <Input.RaidoBox
+                        name={name}
+                        options={[{ value: '남성' }, { value: '여성' }]}
+                        value={value}
+                        onChange={onChange}
+                      />
+                    )
+                  }}
+                />
+              </Input>
+
+              <Input flex="col">
+                <Input.Label text="아이디" required />
+                <Input.Wrapper flex="row">
+                  <Input.Text
+                    name="username"
+                    placeholder="아이디 입력"
+                    register={register}
+                  />
+                  <Input.Button text="중복확인" />
+                </Input.Wrapper>
+              </Input>
+
+              <Input flex="col">
+                <Input.Label text="비밀번호" required />
+                <Input.Text
+                  name="password"
+                  placeholder="비밀번호 입력"
+                  register={register}
+                  required
+                />
+              </Input>
+
+              <Input flex="col">
+                <Input.Label text="비밀번호 확인" required />
+                <Input.Text
+                  name="password_verify"
+                  placeholder="비밀번호 재입력"
+                  register={register}
+                  required
+                />
+              </Input>
+
+              <Input flex="col">
+                <Input.Label text="이메일" required />
+                <Input.Wrapper flex="col">
+                  <Input.Text
+                    name="email"
+                    placeholder="이메일 입력"
+                    register={register}
+                    required
+                  />
+                  <Controller
+                    name="email_agree"
+                    control={control}
+                    render={({ field: { name, value, onChange } }) => {
+                      return (
+                        <CheckBoxLabel
+                          name={name}
+                          onChange={onChange}
+                          checked={value}
+                          labelContent={
+                            <div className="whitespace-nowrap text-[12px] font-medium leading-[120%] text-[#666]">
+                              소식 수신 동의 (미동의 시 중요사항 미발송)
+                            </div>
+                          }
+                        />
+                      )
+                    }}
+                  />
+                </Input.Wrapper>
+              </Input>
+
+              <Input flex="col">
+                <Input.Label text="휴대폰 인증" required />
+                <Input.Wrapper flex="col">
+                  <Input.Wrapper flex="row">
+                    <Input.Text
+                      name="phone_number"
+                      placeholder="휴대폰 번호 입력"
+                      register={register}
+                    />
+                    <Input.Button text="본인인증" />
+                  </Input.Wrapper>
+                  <Input.Wrapper flex="row">
+                    <Input.Text
+                      name="phone_number_verify"
+                      placeholder="인증번호 입력"
+                      register={register}
+                    />
+                    <Input.Button text="확인" />
+                  </Input.Wrapper>
+                </Input.Wrapper>
+              </Input>
+
+              <Input flex="col">
+                <Input.Label text="업체명" required />
+                <Input.Text
+                  name="company_name"
+                  placeholder="업체명 입력"
+                  register={register}
+                />
+              </Input>
+
+              <Input flex="col">
+                <Input.Label text="사원번호" required />
+                <Input.Wrapper flex="row">
+                  <Input.Text
+                    name="employee_number"
+                    placeholder="사원번호 입력"
+                    register={register}
+                  />
+                  <Input.Button text="중복확인" />
+                </Input.Wrapper>
+              </Input>
+
+              <Input flex="col">
+                <Input.Label text="담당 전화번호" required />
+                <Input.Text
+                  name="contact_phone_number"
+                  placeholder="담당 전화번호 입력"
+                  register={register}
+                />
+              </Input>
+            </section>
+            <div className="flex flex-row items-start justify-end self-stretch">
+              <button
+                type="submit"
+                className="flex h-[61px] flex-1 flex-row items-center justify-center rounded-[4px] bg-[#3162fd] px-[36px] py-[20px]"
+              >
+                <div className="whitespace-nowrap text-center text-[18px] font-bold text-[#fff]">
+                  완료
                 </div>
-                <div className="self-stretch flex flex-col items-start justify-start gap-[12px]">
-                  <div className="text-[16px] leading-[90%] font-semibold whitespace-nowrap">
-                    <span className="text-[#ff3819]">* </span>
-                    <span className="text-[#333]">생년월일</span>
-                  </div>
-                  <div className="relative self-stretch h-[44px] shrink-0 flex flex-row items-center justify-start gap-[37px] p-[16px] bg-[#fff] border-[1px] border-solid border-[#c4c4c4] rounded-[4px] overflow-hidden">
-                    <div className="text-[14px] leading-[94%] text-[#c4c4c4] whitespace-nowrap">
-                      YYYY/MM/DD
-                    </div>
-                    <div className="absolute right-[16px] top-[16px] w-[13px] h-[13px] shrink-0 overflow-hidden">
-                      <img
-                        className="absolute left-0 top-[0px]"
-                        width="13"
-                        height="12"
-                        src="Layer 1I3_1339;1_450;1069_16286.png"
-                      ></img>
-                    </div>
-                  </div>
-                </div>
-                <div className="self-stretch flex flex-col items-start justify-start gap-[12px]">
-                  <div className="text-[16px] leading-[90%] font-semibold whitespace-nowrap">
-                    <span className="text-[#ff3819]">* </span>
-                    <span className="text-[#333]">성별</span>
-                  </div>
-                  <div className="self-stretch flex flex-row items-start justify-start gap-[12px]">
-                    <div className="flex-1 h-[41px] flex flex-row items-center justify-center py-[12px] px-[28px] bg-[#4a4a4a] rounded-[4px]">
-                      <div className="text-[14px] font-medium text-[#fff] whitespace-nowrap">
-                        남성
-                      </div>
-                    </div>
-                    <div className="flex-1 h-[41px] flex flex-row items-center justify-center py-[12px] px-[28px] bg-[#fff] border-[1px] border-solid border-[#c4c4c4] rounded-[4px]">
-                      <div className="text-[14px] font-medium text-[#4a4a4a] whitespace-nowrap">
-                        여성
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="self-stretch flex flex-col items-start justify-start gap-[4px]">
-                  <div className="text-[16px] leading-[140%] font-semibold whitespace-nowrap">
-                    <span className="text-[#ff3819]">* </span>
-                    <span className="text-[#333]">아이디</span>
-                  </div>
-                  <div className="self-stretch flex flex-row items-start justify-start gap-[8px]">
-                    <div className="flex-1 flex flex-row items-center justify-start py-[12px] px-[16px] bg-[#fff] border-[1px] border-solid border-[#c4c4c4] rounded-[4px]">
-                      <div className="text-[14px] leading-[140%] text-[#c4c4c4] whitespace-nowrap">
-                        아이디 입력
-                      </div>
-                    </div>
-                    <div className="w-[112px] h-[44px] shrink-0 flex flex-row items-center justify-center py-[12px] px-[28px] bg-[#fff] border-[1px] border-solid border-[#888] rounded-[4px]">
-                      <div className="text-[14px] font-bold text-[#4a4a4a] whitespace-nowrap">
-                        중복확인
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="self-stretch flex flex-col items-start justify-start gap-[12px]">
-                  <div className="text-[16px] leading-[90%] font-semibold whitespace-nowrap">
-                    <span className="text-[#ff3819]">* </span>
-                    <span className="text-[#333]">비밀번호</span>
-                  </div>
-                  <div className="self-stretch flex flex-row items-center justify-start py-[12px] px-[16px] bg-[#fff] border-[1px] border-solid border-[#c4c4c4] rounded-[4px] overflow-hidden">
-                    <div className="text-[14px] leading-[140%] text-[#c4c4c4] whitespace-nowrap">
-                      비밀번호 입력
-                    </div>
-                  </div>
-                </div>
-                <div className="self-stretch flex flex-col items-start justify-start gap-[12px]">
-                  <div className="text-[16px] leading-[90%] font-semibold whitespace-nowrap">
-                    <span className="text-[#ff3819]">* </span>
-                    <span className="text-[#333]">비밀번호 확인</span>
-                  </div>
-                  <div className="self-stretch flex flex-row items-center justify-start py-[12px] px-[16px] bg-[#fff] border-[1px] border-solid border-[#c4c4c4] rounded-[4px] overflow-hidden">
-                    <div className="text-[14px] leading-[140%] text-[#c4c4c4] whitespace-nowrap">
-                      비밀번호 재입력
-                    </div>
-                  </div>
-                </div>
-                <div className="self-stretch flex flex-col items-start justify-start gap-[12px]">
-                  <div className="text-[16px] leading-[90%] font-semibold whitespace-nowrap">
-                    <span className="text-[#ff3819]">* </span>
-                    <span className="text-[#333]">이메일</span>
-                  </div>
-                  <div className="self-stretch flex flex-row items-center justify-start py-[12px] px-[16px] bg-[#fff] border-[1px] border-solid border-[#c4c4c4] rounded-[4px] overflow-hidden">
-                    <div className="text-[14px] leading-[140%] text-[#c4c4c4] whitespace-nowrap">
-                      이메일 입력
-                    </div>
-                  </div>
-                  <div className="flex flex-row items-center justify-start gap-[8px]">
-                    <div className="relative w-[18px] h-[18px] shrink-0">
-                      <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#4a4a4a] rounded-[2px]"></div>
-                      <img
-                        className="absolute left-[3px] top-[3px]"
-                        width="12"
-                        height="12"
-                        src="Group 159I3_1364;1_701.png"
-                      ></img>
-                    </div>
-                    <div className="text-[12px] leading-[120%] font-medium text-[#666] whitespace-nowrap">
-                      소식 수신 동의 (미동의 시 중요사항 미발송)
-                    </div>
-                  </div>
-                </div>
-                <div className="self-stretch flex flex-col items-start justify-start gap-[4px]">
-                  <div className="text-[16px] leading-[140%] font-semibold whitespace-nowrap">
-                    <span className="text-[#ff3819]">* </span>
-                    <span className="text-[#333]">휴대폰 인증</span>
-                  </div>
-                  <div className="self-stretch flex flex-col items-start justify-start gap-[8px]">
-                    <div className="self-stretch flex flex-row items-start justify-start gap-[7px]">
-                      <div className="relative flex-1 flex flex-row items-center justify-start gap-[10px] py-[12px] px-[16px] bg-[#fff] border-[1px] border-solid border-[#c4c4c4] rounded-[4px]">
-                        <div className="text-[14px] leading-[140%] text-[#333] whitespace-nowrap">
-                          +82
-                        </div>
-                        <div className="absolute -translate-y-1/2 left-[68px] top-1/2 flex flex-row items-center justify-start pt-[4px] pr-[13px] pb-[4px] pl-0 border-#dee2e6 border border-[0_1px_0_0] overflow-hidden">
-                          <div className="relative w-[11px] h-[11px] shrink-0">
-                            <img
-                              className="absolute left-[1px] top-[3px]"
-                              width="4"
-                              height="8"
-                              src="Group 159I3_1424;6_1561.png"
-                            ></img>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="w-[112px] h-[44px] shrink-0 flex flex-row items-center justify-center py-[12px] px-[28px] bg-[#fff] border-[1px] border-solid border-[#888] rounded-[4px]">
-                        <div className="text-[14px] font-bold text-[#4a4a4a] whitespace-nowrap">
-                          본인인증
-                        </div>
-                      </div>
-                    </div>
-                    <div className="self-stretch flex flex-row items-start justify-start gap-[7px]">
-                      <div className="flex-1 flex flex-row items-center justify-between py-[12px] px-[16px] bg-[#fff] border-[1px] border-solid border-[#c4c4c4] rounded-[4px]">
-                        <div className="text-[14px] leading-[140%] text-[#c4c4c4] whitespace-nowrap">
-                          인증번호
-                        </div>
-                        <div className="text-[14px] leading-[140%] text-[#666] whitespace-nowrap">
-                          3:00
-                        </div>
-                      </div>
-                      <div className="w-[112px] h-[44px] shrink-0 flex flex-row items-center justify-center py-[12px] px-[28px] bg-[#fff] border-[1px] border-solid border-[#888] rounded-[4px]">
-                        <div className="text-[14px] font-bold text-[#4a4a4a] whitespace-nowrap">
-                          확인
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="self-stretch flex flex-col items-start justify-start gap-[12px]">
-                  <div className="text-[16px] leading-[90%] font-semibold whitespace-nowrap">
-                    <span className="text-[#ff3819]">* </span>
-                    <span className="text-[#333]">업체명</span>
-                  </div>
-                  <div className="self-stretch flex flex-row items-center justify-start py-[12px] px-[18px] bg-[#fff] border-[1px] border-solid border-[#c4c4c4] rounded-[4px] overflow-hidden">
-                    <div className="text-[14px] leading-[140%] text-[#c4c4c4] whitespace-nowrap">
-                      업체명 입력
-                    </div>
-                  </div>
-                </div>
-                <div className="self-stretch flex flex-col items-start justify-start gap-[4px]">
-                  <div className="text-[16px] leading-[140%] font-semibold whitespace-nowrap">
-                    <span className="text-[#ff3819]">* </span>
-                    <span className="text-[#333]">사원번호</span>
-                  </div>
-                  <div className="self-stretch flex flex-row items-start justify-start gap-[8px]">
-                    <div className="flex-1 flex flex-row items-center justify-start py-[12px] px-[18px] bg-[#fff] border-[1px] border-solid border-[#c4c4c4] rounded-[4px]">
-                      <div className="text-[14px] leading-[140%] text-[#c4c4c4] whitespace-nowrap">
-                        사원번호 입력
-                      </div>
-                    </div>
-                    <div className="w-[112px] h-[44px] shrink-0 flex flex-row items-center justify-center py-[12px] px-[28px] bg-[#fff] border-[1px] border-solid border-[#888] rounded-[4px]">
-                      <div className="text-[14px] font-bold text-[#4a4a4a] whitespace-nowrap">
-                        중복확인
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="self-stretch flex flex-col items-start justify-start gap-[12px]">
-                  <div className="text-[16px] leading-[90%] font-semibold whitespace-nowrap">
-                    <span className="text-[#ff3819]">* </span>
-                    <span className="text-[#333]">담당 전화번호</span>
-                  </div>
-                  <div className="self-stretch flex flex-row items-center justify-start py-[12px] px-[18px] bg-[#fff] border-[1px] border-solid border-[#c4c4c4] rounded-[4px] overflow-hidden">
-                    <div className="text-[14px] leading-[140%] text-[#c4c4c4] whitespace-nowrap">
-                      담당 전화번호 입력
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="self-stretch flex flex-row items-start justify-end">
-                <div className="flex-1 h-[61px] flex flex-row items-center justify-center py-[20px] px-[36px] bg-[#3162fd] rounded-[4px]">
-                  <div className="text-[18px] font-bold text-[#fff] text-center whitespace-nowrap">
-                    완료
-                  </div>
-                </div>
-              </div>
+              </button>
             </div>
-          </div>
-        </div>
-      </div>
+          </section>
+        </section>
+      </form>
     </Layout.Join>
   )
 }

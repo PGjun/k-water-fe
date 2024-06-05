@@ -1,19 +1,59 @@
 const Back = () => (
   <svg
-    width="25"
-    height="22"
-    viewBox="0 0 25 22"
+    width="20"
+    height="18"
+    viewBox="0 0 20 18"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      d="M2.70947 11L23.9997 11"
+      d="M2.28223 9L18.2499 9"
       stroke="#0A0A0A"
       strokeWidth="2"
       strokeLinecap="round"
     />
     <path
-      d="M11.8307 21L1.99977 11L11.8307 1"
+      d="M9.1229 16.5L1.74971 9L9.1229 1.5"
+      stroke="#0A0A0A"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+)
+
+const BackBgNone = () => (
+  <svg
+    width="19"
+    height="20"
+    viewBox="0 0 19 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M14.2922 7.07345L7.71875 13.6469L4.7078 10.6359"
+      stroke="#666666"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+  </svg>
+)
+
+const BackM = () => (
+  <svg
+    width="20"
+    height="18"
+    viewBox="0 0 20 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M2.28223 9L18.2499 9"
+      stroke="#0A0A0A"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <path
+      d="M9.1229 16.5L1.74971 9L9.1229 1.5"
       stroke="#0A0A0A"
       strokeWidth="2"
       strokeLinecap="round"
@@ -59,6 +99,8 @@ const CheckBoxOff = () => (
 
 export const Icon = {
   Back,
+  BackBgNone,
+  BackM,
   CheckBoxOn,
   CheckBoxOff,
 }

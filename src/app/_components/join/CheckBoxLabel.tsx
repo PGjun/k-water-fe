@@ -3,7 +3,7 @@ import { ChangeEvent, ReactNode } from 'react'
 
 export const CheckBoxLabel = ({
   name,
-  checked,
+  checked = false, // 초기값을 설정해줘야 제어 컴포넌트가 돼서 에러가 안뜸
   onChange,
   labelContent,
 }: {
@@ -12,7 +12,7 @@ export const CheckBoxLabel = ({
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   labelContent: ReactNode
 }) => (
-  <div className="self-stretch flex flex-row items-center justify-start">
+  <div className="flex flex-row items-center justify-start self-stretch">
     <input
       type="checkbox"
       name={name}
@@ -23,7 +23,7 @@ export const CheckBoxLabel = ({
     />
     <label
       htmlFor={name}
-      className="relative w-[18px] h-[18px] shrink-0 cursor-pointer"
+      className="relative h-[18px] w-[18px] shrink-0 cursor-pointer"
     >
       {checked ? <Icon.CheckBoxOn /> : <Icon.CheckBoxOff />}
     </label>

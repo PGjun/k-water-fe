@@ -2,15 +2,15 @@ import { ReactNode } from 'react'
 
 const Default = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      {children}
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="mx-[16px] w-[343px] md:mx-0 md:w-full">{children}</div>
     </div>
   )
 }
 
 const Join = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[#F6F6F6]">
+    <div className="flex min-h-screen justify-center md:items-center md:bg-[#F6F6F6]">
       {children}
     </div>
   )
