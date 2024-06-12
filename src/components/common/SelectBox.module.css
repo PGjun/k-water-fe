@@ -1,0 +1,59 @@
+/* CustomSelectBox.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.customSelectBox {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+}
+
+.arrow {
+  margin-left: 8px;
+}
+
+.options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  z-index: 10;
+  margin-top: 4px;
+  list-style: none;
+  padding: 0;
+}
+
+.option {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background-color: #f0f0f0;
+}
+
+.selectedText {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #555;
+}

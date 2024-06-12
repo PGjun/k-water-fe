@@ -1,10 +1,10 @@
 import { revalidatePath } from 'next/cache'
-import { createNotice, readNotices } from '../../../actions/notice'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../../api/auth/authOptions'
+import { api } from '@/services/api'
 
 export default async function Page() {
-  const notices = await readNotices()
+  const { data: notices } = await api.readNotices()
   const session: any = await getServerSession(authOptions)
 
   async function create(formData: FormData) {
@@ -14,12 +14,12 @@ export default async function Page() {
     const content = formData.get('content') as string
     if (!session) return
 
-    const resData = await createNotice({
+    const res = await api.createNotice({
       userId: session?.user?.id as number,
       title,
       content,
     })
-    if (resData) {
+    if (res.status === 201) {
       revalidatePath('/notice')
     }
   }

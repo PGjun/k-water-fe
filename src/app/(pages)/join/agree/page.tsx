@@ -1,10 +1,10 @@
 'use client'
 
 import { Icon } from '@/svgs/icons'
-import { useCheckAgreeFrom } from '@/app/_hooks/useCheckAgreeForm'
-import { usePushRouter } from '@/app/_hooks/common/usePushRouter'
-import { CheckBoxLabel } from '@/app/_components/join/CheckBoxLabel'
-import { Layout } from '@/app/_components/common/layouts'
+import { useCheckAgreeFrom } from '@/hooks/useCheckAgreeForm'
+import { usePushRouter } from '@/hooks/common/usePushRouter'
+import { CheckBoxLabel } from '@/components/join/CheckBoxLabel'
+import { Layout } from '@/components/common/layouts'
 
 export default function AgreePage() {
   const { checkboxes, handleCheckboxChange, handleSubmit } = useCheckAgreeFrom()

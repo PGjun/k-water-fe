@@ -5,4 +5,7 @@ export const PATH_NAME = {
   LOGIN: '/login',
   JOIN_AGREE: '/join/agree',
   JOIN_BEGIN: '/join/begin',
+  QUESTION: '/question',
+  INQUIRY: '/inquiry',
+  NOTICE: '/notice',
 }

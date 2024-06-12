@@ -31,3 +31,8 @@ body {
     text-wrap: balance;
   }
 } */
+
+/* ReactDatepicker width 100% */
+.react-datepicker-wrapper {
+  width: 100%;
+}

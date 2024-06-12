@@ -1,6 +1,8 @@
+// /api/auth/authOptions.ts
+
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { login } from '@/actions/login'
+import { api } from '@/services/api'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -13,15 +15,17 @@ export const authOptions: NextAuthOptions = {
       authorize: async (credentials: any) => {
         if (!credentials) return null
 
-        const resData = await login(credentials.username, credentials.password)
-        console.log('🚀 ~ authorize: ~ resData:', resData)
-
-        if (resData) {
+        const res = await api.login({
+          username: credentials.username,
+          password: credentials.password,
+        })
+        if (res.status === 200) {
+          const resData = res.data
+          console.log('🚀 ~ authorize: ~ resData:', resData)
           console.log('유저 로그인 성공')
-
           return {
             ...resData,
-            keepLogin: credentials.keepLogin === 'true', // 문자열로 전달될 가능성
+            keepLogin: credentials.keepLogin === 'true',
           }
         }
       },

@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { pretendard } from '@/constants/fonts'
+import { Header } from '@/components/common/Header'
+import { Footer } from '@/components/common/Footer'
+import ModalWrapper from '@/components/modal/ModalWrapper'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,7 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={pretendard.className}>{children}</body>
+      <body className={pretendard.className}>
+        <Header />
+        <ModalWrapper />
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }

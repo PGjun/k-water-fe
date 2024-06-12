@@ -1,4 +1,3 @@
-import { AgreeCheckboxState } from '@/types/common'
 import { ChangeEvent, useState } from 'react'
 import { usePushRouter } from './common/usePushRouter'
 import _ from 'lodash'
@@ -22,7 +21,7 @@ export const useCheckAgreeFrom = () => {
           acc[key as keyof AgreeCheckboxState] = checked
           return acc
         },
-        {} as AgreeCheckboxState
+        {} as AgreeCheckboxState,
       )
       setCheckboxes(newCheckboxes)
     } else {
@@ -46,7 +45,7 @@ export const useCheckAgreeFrom = () => {
       'serviceUsage',
     ]
     const allRequiredChecked = requiredFields.every(
-      (field) => checkboxes[field]
+      (field) => checkboxes[field],
     )
 
     if (!allRequiredChecked) {
@@ -57,7 +56,7 @@ export const useCheckAgreeFrom = () => {
     // 쿼리 스트링으로 전달할 체크박스 값들 필터링
     const queryParams = _.pickBy(
       checkboxes,
-      (value, key) => value === true && key !== 'all'
+      (value, key) => value === true && key !== 'all',
     )
 
     push('JOIN_BEGIN', queryParams)
