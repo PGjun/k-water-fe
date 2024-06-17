@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, FormEventHandler, useState } from 'react'
 import { usePushRouter } from './common/usePushRouter'
 import _ from 'lodash'
 
@@ -36,7 +36,8 @@ export const useCheckAgreeFrom = () => {
 
   const { push } = usePushRouter()
 
-  async function handleSubmit(formData: FormData) {
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault()
     // 모든 필수 항목이 체크되었는지 확인
     const requiredFields: (keyof AgreeCheckboxState)[] = [
       'personalUsage',

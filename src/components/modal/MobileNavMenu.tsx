@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
 import { PATH_NAME } from '@/constants/pathName'
 import { Icon } from '@/svgs/icons'
 import { signOut } from 'next-auth/react'
 import { Img } from '@/svgs/images'
+import { useEffect } from 'react'
+import { useMediaQuery } from '@/hooks/common/useMediaQuery'
 
 export const navMenuList = [
   {
@@ -29,54 +30,19 @@ export const navMenuList = [
   },
 ]
 
-export const MobileNavMenu = () => {
+export const MobileNavMenu = ({ handleClose }: { handleClose: () => void }) => {
   const pathname = usePathname()
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const { isMobile } = useMediaQuery()
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : 'auto'
-
-    const handlePopState = () => {
-      setIsOpen(false)
-    }
-
-    window.addEventListener('popstate', handlePopState)
-
-    return () => {
-      window.removeEventListener('popstate', handlePopState)
-    }
-  }, [isOpen])
-
-  const handleOpen = () => {
-    setIsOpen(true)
-  }
-
-  const handleClose = () => {
-    setIsOpen(false)
-  }
-
-  const handleBackClick = (e: any) => {
-    if (e.target.classList.contains('bg-overlay')) {
-      handleClose()
-    }
-  }
+    if (!isMobile) handleClose()
+  }, [isMobile, , handleClose])
 
   return (
-    <div>
-      <button onClick={handleOpen} className="flex items-center justify-center">
-        <Icon.SideMenu />
-      </button>
-
-      {/* <section
-        className={`fixed left-0 top-0 z-50 h-screen w-full transform bg-white transition-transform duration-300 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      > */}
+    <div className="md:hidden">
       <section
-        className={`fixed left-0 top-0 z-50 h-screen w-full transform bg-white ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed left-0 top-0 z-50 h-screen w-full transform bg-white`}
       >
         <div className="relative mx-[16px] flex h-[60px] flex-1 items-center justify-center md:hidden">
           <button
@@ -127,13 +93,6 @@ export const MobileNavMenu = () => {
           })}
         </nav>
       </section>
-      {isOpen && (
-        <div
-          className="bg-overlay fixed inset-0 z-40"
-          style={{ background: '#00000066' }}
-          onClick={handleBackClick}
-        />
-      )}
     </div>
   )
 }

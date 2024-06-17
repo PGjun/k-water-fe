@@ -1,3 +1,5 @@
+//* 제출할 폼 데이터 타입
+
 interface BeginFormData {
   name: string
   username: string

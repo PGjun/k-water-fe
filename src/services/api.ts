@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 const BASE_URL = 'http://jdi-global.com:35003'
 
@@ -44,27 +44,81 @@ apiClient.interceptors.response.use(
   },
 )
 
+// API 경로 정의
+const API_PATHS = {
+  USER: '/api/users',
+  EMPLOYEE: '/api/employees',
+  NOTICE: '/api/notices',
+  VIDEO: '/api/videos',
+}
+
 const login = (data: { username: string; password: string }) =>
-  apiClient.post(`/api/users/login`, data)
+  apiClient.post(`${API_PATHS.USER}/login`, data)
+
 const verifyUsername = (username: string) =>
-  apiClient.post(`/api/users/verify_username?username=${username}`)
+  apiClient.post(`${API_PATHS.USER}/verify_username?username=${username}`)
+
 const verifyEmployee = (employeeNumber: string) =>
   apiClient.get(
-    `/api/employees/verify?company_id=1&employee_number=${employeeNumber}`,
+    `${API_PATHS.EMPLOYEE}/verify?company_id=1&employee_number=${employeeNumber}`,
   )
-const createUser = (data: CreatUserSchema) => apiClient.post('api/users', data)
+
+const createUser = (data: CreatUserSchema) =>
+  apiClient.post(`${API_PATHS.USER}`, data)
+
 const readNotices = (): Promise<{
   data: { title: string; content: string; created_at: string }[]
-}> => apiClient.get(`/api/notices/?page=1&page_size=10`)
-const createNotice = ({
-  userId,
-  title,
-  content,
-}: {
+}> => apiClient.get(`${API_PATHS.NOTICE}/?page=1&page_size=10`)
+
+const createNotice = (data: {
   userId: number
   title: string
   content: string
-}) => apiClient.post(`/api/notices/?user_id=${userId}`, { title, content })
+}) =>
+  apiClient.post(`${API_PATHS.NOTICE}/?user_id=${data.userId}`, {
+    title: data.title,
+    content: data.content,
+  })
+
+interface Video {
+  url: string
+  thumbnail: string
+  timelines: {
+    time: string
+    subtitle: string
+  }[]
+  title: string
+  provider: string
+  source_site: string
+  upload_date: string
+  metatext: string[]
+  accident_type: {
+    id: number
+    name: string
+  }
+  accident_area: {
+    id: number
+    name: string
+  }
+}
+
+const readVideos = async (params: {
+  keyword?: string
+  title?: string
+  accident_type_ids?: string
+  accident_area_ids?: string
+  start_date?: string
+  end_date?: string
+}): Promise<Video[]> => {
+  // URLSearchParams 객체 생성
+  const queryParams = new URLSearchParams(params)
+
+  const { data } = await apiClient.get(
+    `${API_PATHS.VIDEO}/?${queryParams.toString()}`,
+  )
+
+  return data
+}
 
 export const api = {
   login,
@@ -73,4 +127,5 @@ export const api = {
   createUser,
   readNotices,
   createNotice,
+  readVideos,
 }

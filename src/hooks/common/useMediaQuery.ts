@@ -6,7 +6,13 @@ export const useMediaQuery = (breakpoint = 'md') => {
 
   if (breakpoint === 'md') query = '(max-width: 768px)'
 
-  const [matches, setMatches] = useState(false)
+  //익명함수로 초기값이 정확한 값을 가지게 함
+  const [matches, setMatches] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia(query).matches
+    }
+    return false
+  })
 
   useEffect(() => {
     const media = window.matchMedia(query)

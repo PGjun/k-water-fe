@@ -8,10 +8,13 @@ import { usePathname } from 'next/navigation'
 import HeaderLogo from '/public/images/header_logo.png'
 import MheaderLogo from '/public/images/m_header_logo.png'
 import Link from 'next/link'
-import { MobileNavMenu, navMenuList } from './MobileNavMenu'
+import { MobileNavMenu, navMenuList } from '../modal/MobileNavMenu'
+import useModalStore from '@/stores/modalStore'
+import { Icon } from '@/svgs/icons'
 
 export const Header = () => {
   const currentPath = usePathname()
+  const { openModal, closeModal } = useModalStore()
 
   if (currentPath.startsWith('/login') || currentPath.startsWith('/join'))
     return null
@@ -20,7 +23,15 @@ export const Header = () => {
       <div className="flex h-[60px] items-center justify-center border-b md:h-[72px] md:border-none md:bg-[#F3F5FF]">
         <section className="relative mx-[16px] flex flex-1 items-center justify-center md:hidden">
           <div className="absolute left-0 md:hidden">
-            <MobileNavMenu />
+            {/* <MobileNavMenu /> */}
+            <button
+              onClick={() =>
+                openModal(<MobileNavMenu handleClose={closeModal} />)
+              }
+              className="flex items-center justify-center"
+            >
+              <Icon.SideMenu />
+            </button>
           </div>
           <Image src={MheaderLogo} alt="logo"></Image>
         </section>

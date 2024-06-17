@@ -4,43 +4,42 @@ import { Icon } from '@/svgs/icons'
 import { useCheckAgreeFrom } from '@/hooks/useCheckAgreeForm'
 import { usePushRouter } from '@/hooks/common/usePushRouter'
 import { CheckBoxLabel } from '@/components/join/CheckBoxLabel'
-import { Layout } from '@/components/common/layouts'
 
 export default function AgreePage() {
   const { checkboxes, handleCheckboxChange, handleSubmit } = useCheckAgreeFrom()
   const { push } = usePushRouter()
 
   return (
-    <Layout.Join>
+    <div className="fixed inset-0 flex justify-center md:items-center md:bg-[#F6F6F6]">
       <form
-        action={handleSubmit}
+        onSubmit={handleSubmit}
         className="flex w-full justify-center bg-white py-[16px] pt-[20px] md:my-[100px] md:w-[800px] md:items-center md:rounded-[20px] md:py-[56px] md:shadow"
       >
         <section className="flex w-full flex-col items-center justify-center gap-[24px] md:gap-[40px]">
-          <section className="flex w-full flex-row items-center gap-[12px] border-b border-[#3162FD] px-[16px] pb-[20px] md:w-[640px] md:border-0 md:px-0 md:pb-0">
+          <section className="flex w-full items-center gap-[12px] border-b border-[#3162FD] px-[16px] pb-[20px] md:w-[640px] md:border-0 md:px-0 md:pb-0">
             <button onClick={() => push('LOGIN')} type="button">
               <Icon.Back />
             </button>
-            <div className="flex flex-row items-end justify-start gap-[8px]">
-              <div className="whitespace-nowrap text-[18px] font-bold leading-[100%] text-[#333] md:text-[26px]">
+            <div className="flex items-end gap-[8px]">
+              <div className="text-[18px] font-bold leading-[100%] text-[#333] md:text-[26px]">
                 회원가입
               </div>
-              <div className="whitespace-nowrap text-[12px] leading-[100%] text-[#666] md:text-[16px]">
+              <div className="text-[12px] leading-[100%] text-[#666] md:text-[16px]">
                 약관동의 및 실명 인증
               </div>
             </div>
           </section>
 
           <section className="flex w-full flex-1 flex-col justify-between px-[16px] md:w-[640px] md:px-0">
-            <div className="flex flex-col items-start justify-start gap-[20px] self-stretch">
-              <div className="relative flex h-[20px] shrink-0 self-stretch">
+            <div className="flex flex-col gap-[20px]">
+              <div className="relative flex h-[20px] self-stretch">
                 <div className="absolute left-0 top-0 h-[20px] text-[16px] leading-[90%] text-[#333] md:text-[20px] md:font-semibold">
                   서비스 이용약관 동의
                 </div>
               </div>
-              <div className="flex flex-col items-start justify-start">
-                <div className="flex flex-col items-start justify-start self-stretch">
-                  <div className="border-#e9ecef flex flex-col items-start justify-center border-b px-0 pb-[20px] pt-0">
+              <div className="flex flex-col">
+                <div className="flex flex-col">
+                  <div className="flex flex-col items-start justify-center border-b border-[#e9ecef] px-0 pb-[20px] pt-0">
                     <CheckBoxLabel
                       name="all"
                       checked={checkboxes.all}
@@ -166,6 +165,6 @@ export default function AgreePage() {
           </section>
         </section>
       </form>
-    </Layout.Join>
+    </div>
   )
 }

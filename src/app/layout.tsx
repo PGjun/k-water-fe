@@ -4,6 +4,7 @@ import { pretendard } from '@/constants/fonts'
 import { Header } from '@/components/common/Header'
 import { Footer } from '@/components/common/Footer'
 import ModalWrapper from '@/components/modal/ModalWrapper'
+import ReactQueryProviders from '@/utils/react-query-provider'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,8 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={pretendard.className}>
         <Header />
-        <ModalWrapper />
-        {children}
+        <ReactQueryProviders>
+          <ModalWrapper />
+          {children}
+        </ReactQueryProviders>
         <Footer />
       </body>
     </html>

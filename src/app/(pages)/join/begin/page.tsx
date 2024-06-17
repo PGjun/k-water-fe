@@ -1,11 +1,10 @@
 'use client'
 
-import { Layout } from '@/components/common/layouts'
 import { CheckBoxLabel } from '@/components/join/CheckBoxLabel'
 import { Icon } from '@/svgs/icons'
 import { Controller } from 'react-hook-form'
-import { Input } from '@/components/common/FormInput'
 import { useBeginLogic } from '@/hooks/logic/useBeginLogic'
+import { Input } from '@/components/Input/InputFactory'
 
 export default function BeginPage(props: {
   params: {}
@@ -23,13 +22,13 @@ export default function BeginPage(props: {
   } = useBeginLogic({ searchParams: props.searchParams })
 
   return (
-    <Layout.Join>
+    <div className="flex min-h-screen justify-center md:items-center md:bg-[#F6F6F6]">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex w-full justify-center bg-white py-[16px] pt-[20px] md:my-[100px] md:w-[800px] md:items-center md:rounded-[20px] md:py-[56px] md:shadow"
+        className="flex w-full justify-center bg-white pb-[16px] md:my-[100px] md:w-[800px] md:items-center md:rounded-[20px] md:py-[56px] md:shadow"
       >
         <section className="flex w-full flex-col items-center justify-center gap-[24px] md:gap-[40px]">
-          <section className="flex w-full flex-row items-center gap-[12px] border-b border-[#3162FD] px-[16px] pb-[20px] md:w-[640px] md:border-0 md:px-0 md:pb-0">
+          <section className="sticky top-0 z-50 flex w-full flex-row items-center gap-[12px] border-b border-[#3162FD] bg-white px-[16px] py-[20px] md:w-[640px] md:border-0 md:px-0 md:pb-0">
             <button onClick={() => push('JOIN_AGREE')} type="button">
               <Icon.Back />
             </button>
@@ -307,6 +306,6 @@ export default function BeginPage(props: {
           </section>
         </section>
       </form>
-    </Layout.Join>
+    </div>
   )
 }

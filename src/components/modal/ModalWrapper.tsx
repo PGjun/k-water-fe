@@ -11,6 +11,7 @@ const ModalWrapper = () => {
   // 브라우저 뒤로가기 방지
   useEffect(() => {
     document.body.style.overflow = component ? 'hidden' : 'auto'
+    if (!component) return
 
     const handlePopState = () => {
       closeModal()
@@ -30,7 +31,10 @@ const ModalWrapper = () => {
       className={`fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50 md:flex`}
       onClick={closeModal}
     >
-      <div className="relative" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="relative h-full md:h-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         {component}
       </div>
     </div>
