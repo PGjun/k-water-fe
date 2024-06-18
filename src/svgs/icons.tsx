@@ -625,6 +625,60 @@ const Write = ({ size = '20' }) => (
   </svg>
 )
 
+const AttachedFile = ({ color = '#888888' }) => (
+  <svg
+    width="12"
+    height="11"
+    viewBox="0 0 12 11"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M3.7048 7.01846L7.38181 3.18859C7.38181 3.18859 8.0409 2.34159 8.83874 3.00446C9.56721 3.70414 9.11625 4.44066 8.83874 4.69844C8.52654 5.02987 3.91294 9.63308 3.91294 9.63308C3.91294 9.63308 3.01103 10.5905 1.65816 9.41213C0.513433 8.38101 1.10314 7.09211 1.62347 6.53972C2.10912 6.06099 6.75742 1.4946 6.75742 1.4946C6.75742 1.4946 8.24903 0.205706 9.98347 1.78921C11.9954 3.81462 10.3997 5.39813 10.3997 5.39813L6.02895 9.89086"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+const FileDownload = () => (
+  <svg
+    width="16"
+    height="13"
+    viewBox="0 0 16 13"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M14.3466 8.62158V12.0002H1.6543V8.62158"
+      stroke="#666666"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4.07422 6.30371L7.92157 10.1144L11.7689 6.30371"
+      stroke="#666666"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M7.9209 10.1143V1"
+      stroke="#666666"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
 export const Icon = {
   Back,
   BackBgNone,
@@ -645,4 +699,6 @@ export const Icon = {
   Xmark,
   Arrow,
   Write,
+  AttachedFile,
+  FileDownload,
 }

@@ -1,6 +1,21 @@
+import { Pagination } from '@/components/common/Pagination'
 import { Icon } from '@/svgs/icons'
+import Link from 'next/link'
 
 export default function InquiryPage() {
+  const renderAttachTag = (attachCount = 0) => {
+    const enable = 'bg-[#F3F5FF] text-[#3162FD]'
+    const disable = 'bg-[#F3F3F3] text-[#888888]'
+    return (
+      <div
+        className={`hidden h-[26px] w-[54px] items-center justify-center gap-1 place-self-center rounded md:flex ${attachCount ? enable : disable}`}
+      >
+        <Icon.AttachedFile color={attachCount ? '#3162FD' : '#888888'} />
+        {attachCount}
+      </div>
+    )
+  }
+
   return (
     <div className="flex justify-center md:mt-[76px]">
       <div className="min-h-screen w-full flex-1 md:mx-[16px] md:max-w-[1200px]">
@@ -22,50 +37,58 @@ export default function InquiryPage() {
             </button>
           </section>
 
-          <section className="divide-y border-y">
-            {Array.from({ length: 10 }).map((_, idx) => (
-              <article
-                key={idx}
-                className="flex flex-col gap-[12px] px-[16px] py-[20px]"
-              >
-                <div className="flex gap-[12px]">
-                  <span className="flex-shrink-0 rounded border border-[#3162FD] px-[12px] py-[4px] text-[12px] font-bold leading-[14.32px] text-[#3162FD]">
-                    시스템
-                  </span>
-                  <div className="flex flex-1 items-center overflow-hidden">
-                    <span className="truncate">문의 있습니다.</span>
-                    <span className="font-bold text-[#3162FD]">(2)</span>
-                  </div>
-                </div>
+          <section className="border-b border-[#C4C4C4] md:mt-[24px] md:border">
+            <section className="hidden h-[60px] place-items-center bg-[#F4F4F4] md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,4fr)_repeat(3,minmax(0,1fr))]">
+              <div>번호</div>
+              <div>제목</div>
+              <div>작성자</div>
+              <div>등록일</div>
+              <div>첨부파일</div>
+            </section>
 
-                <div className="flex gap-[12px] overflow-hidden">
-                  <span className="text-[12px] leading-[12px] text-[#888888]">
-                    오현지
-                  </span>
-                  <span className="text-[12px] leading-[12px] text-[#888888]">
-                    2024-06-17
-                  </span>
-                  <span className="text-[12px] leading-[12px] text-[#888888]">
-                    첨부파일 O
-                  </span>
-                </div>
-              </article>
+            {Array.from({ length: 10 }).map((_, idx) => (
+              <Link key={idx} href={'/inquiry/1'}>
+                <article className="group flex h-[86px] flex-col place-content-center gap-[12px] border-t border-[#c4c4c4] px-[20px] md:grid md:h-[60px] md:grid-cols-[minmax(0,1fr)_minmax(0,4fr)_repeat(3,minmax(0,1fr))] md:gap-0 md:px-0">
+                  <div className="hidden place-self-center md:block">1</div>
+
+                  <div className="flex items-center gap-[12px]">
+                    <span className="rounded border border-[#3162FD] px-[12px] py-[4px] text-[12px] font-bold leading-[14.32px] text-[#3162FD]">
+                      시스템
+                    </span>
+                    <div className="flex flex-1 items-center overflow-hidden">
+                      <span className="truncate group-hover:underline">
+                        문의 있습니다. 문의 있습니다. 문의 있습니다. 문의 있습니
+                        문의 있습니다. 문의 있습니다. 문의 있습니다. 문의 있습니
+                        문의 있습니다. 문의 있습니다. 문의 있습니다.
+                      </span>
+                      <span className="font-bold text-[#3162FD]">(2)</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-[12px] overflow-hidden text-[12px] leading-[12px] text-[#888888] md:contents md:text-[14px] md:text-[#333333]">
+                    <span className="place-self-center">박경준</span>
+                    <span className="place-self-center">2024-06-17</span>
+                    <span className="md:hidden">첨부파일 0</span>
+                    {renderAttachTag(0)}
+                  </div>
+                </article>
+              </Link>
             ))}
           </section>
 
-          <section className="mx-[16px] mb-[40px] mt-[20px] md:mb-[60px]">
-            <section>
-              <button
-                type="button"
-                className="flex w-full items-center justify-center gap-1 rounded border border-[#888888] py-[12px] text-[20px] font-bold leading-[23.87px] md:hidden"
-              >
-                <Icon.Write />
-                <span>글 쓰기</span>
-              </button>
-            </section>
+          <section className="mx-[16px] mb-[40px] mt-[20px] flex flex-col items-center md:mb-[60px]">
+            <button
+              type="button"
+              className="flex w-full items-center justify-center gap-1 rounded border border-[#888888] py-[12px] text-[20px] font-bold leading-[23.87px] md:hidden"
+            >
+              <Icon.Write />
+              <span>글 쓰기</span>
+            </button>
 
-            <section className="mt-[40px]">페이지네이션</section>
-            <section className="mt-[20px] flex gap-[8px]">
+            <section className="mt-[40px]">
+              <Pagination pathname="/inquiry" />
+            </section>
+            <section className="mt-[20px] flex w-full gap-[8px] md:mt-[40px] md:max-w-[465px]">
               <input
                 type="text"
                 placeholder="검색어를 입력해주세요."
