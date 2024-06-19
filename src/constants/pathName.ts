@@ -8,4 +8,5 @@ export const PATH_NAME = {
   QUESTION: '/question',
   INQUIRY: '/inquiry',
   NOTICE: '/notice',
+  INQUIRY_WRITE: '/inquiry/write',
 }

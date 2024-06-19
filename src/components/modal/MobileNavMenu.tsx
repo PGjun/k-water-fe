@@ -4,7 +4,7 @@ import { PATH_NAME } from '@/constants/pathName'
 import { Icon } from '@/svgs/icons'
 import { signOut } from 'next-auth/react'
 import { Img } from '@/svgs/images'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useMediaQuery } from '@/hooks/common/useMediaQuery'
 
 export const navMenuList = [
@@ -32,8 +32,15 @@ export const navMenuList = [
 
 export const MobileNavMenu = ({ handleClose }: { handleClose: () => void }) => {
   const pathname = usePathname()
-
   const { isMobile } = useMediaQuery()
+  const prevPathname = useRef(pathname)
+
+  useEffect(() => {
+    if (prevPathname.current !== pathname) {
+      handleClose()
+    }
+    prevPathname.current = pathname
+  }, [pathname, handleClose])
 
   useEffect(() => {
     if (!isMobile) handleClose()
@@ -80,7 +87,6 @@ export const MobileNavMenu = ({ handleClose }: { handleClose: () => void }) => {
             return (
               <Link key={idx} href={item.path}>
                 <button
-                  onClick={handleClose}
                   className={`flex h-[50px] w-full items-center gap-[8px] rounded-full text-[20px] font-bold ${isSelected ? selected : normal}`}
                 >
                   <item.IconComponent

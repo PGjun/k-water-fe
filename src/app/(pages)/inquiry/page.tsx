@@ -1,4 +1,5 @@
 import { Pagination } from '@/components/common/Pagination'
+import { PATH_NAME } from '@/constants/pathName'
 import { Icon } from '@/svgs/icons'
 import Link from 'next/link'
 
@@ -28,13 +29,15 @@ export default function InquiryPage() {
               1:1 문의하기
             </h1>
 
-            <button
-              type="button"
-              className="hidden flex-shrink-0 items-center justify-center gap-[2px] rounded border border-[#888888] px-[20px] py-[13.5px] text-[14px] font-bold leading-[16.71px] md:flex"
-            >
-              <Icon.Write size="16" />
-              <span>글 쓰기</span>
-            </button>
+            <Link href={PATH_NAME.INQUIRY_WRITE}>
+              <button
+                type="button"
+                className="hidden flex-shrink-0 items-center justify-center gap-[2px] rounded border border-[#888888] px-[20px] py-[13.5px] text-[14px] font-bold leading-[16.71px] md:flex"
+              >
+                <Icon.Write size="16" />
+                <span>글 쓰기</span>
+              </button>
+            </Link>
           </section>
 
           <section className="border-b border-[#C4C4C4] md:mt-[24px] md:border">
@@ -77,22 +80,25 @@ export default function InquiryPage() {
           </section>
 
           <section className="mx-[16px] mb-[40px] mt-[20px] flex flex-col items-center md:mb-[60px]">
-            <button
-              type="button"
-              className="flex w-full items-center justify-center gap-1 rounded border border-[#888888] py-[12px] text-[20px] font-bold leading-[23.87px] md:hidden"
-            >
-              <Icon.Write />
-              <span>글 쓰기</span>
-            </button>
+            <Link href={PATH_NAME.INQUIRY_WRITE} className="w-full">
+              <button
+                type="button"
+                className="flex w-full items-center justify-center gap-1 rounded border border-[#888888] py-[12px] text-[20px] font-bold leading-[23.87px] md:hidden"
+              >
+                <Icon.Write />
+                <span>글 쓰기</span>
+              </button>
+            </Link>
 
             <section className="mt-[40px]">
               <Pagination pathname="/inquiry" />
             </section>
+
             <section className="mt-[20px] flex w-full gap-[8px] md:mt-[40px] md:max-w-[465px]">
               <input
                 type="text"
                 placeholder="검색어를 입력해주세요."
-                className="h-[44px] flex-1 rounded border border-[#C4C4C4] px-[16px] text-[14px] placeholder:text-[#C4C4C4]"
+                className="h-[44px] min-w-0 flex-1 rounded border border-[#C4C4C4] px-[16px] text-[14px] placeholder:text-[#C4C4C4]"
               />
               <button
                 type="submit"
